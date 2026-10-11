@@ -1,0 +1,35 @@
+# Reglas de análisis para UltraPOS.
+# Ejecuta: flutter analyze
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    # Código generado por Drift (build_runner).
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+  errors:
+    # Reglas que en un POS no son negociables:
+    invalid_annotation_target: ignore # falso positivo con Riverpod/Drift
+    missing_required_param: error
+    missing_return: error
+    todo: ignore
+
+linter:
+  rules:
+    # --- Robustez ---
+    always_declare_return_types: true
+    avoid_slow_async_io: true
+    cancel_subscriptions: true
+    close_sinks: true
+    unawaited_futures: true
+    use_build_context_synchronously: true
+    avoid_print: true
+    # --- Legibilidad / consistencia ---
+    prefer_single_quotes: true
+    prefer_final_locals: true
+    require_trailing_commas: true
+    sort_child_properties_last: true
+    directives_ordering: true
+    unnecessary_lambdas: true
+    # --- Documentación de API pública ---
+    slash_for_doc_comments: true

@@ -1,0 +1,42 @@
+# --- Flutter / Dart ---
+.dart_tool/
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+*.iml
+.idea/
+.vscode/*
+!.vscode/launch.json
+!.vscode/settings.json
+
+# --- Artefactos de compilación ---
+build/
+/out/
+/coverage/
+*.log
+
+# --- Windows (runner generado por `flutter create`) ---
+windows/flutter/ephemeral/
+windows/runner/Debug/
+windows/runner/Release/
+*.exe.stackdump
+*.pdb
+*.ilk
+
+# --- Distribución / instaladores ---
+/dist/
+/release/
+*.msix
+*.msixupload
+*.msi
+
+# --- Datos locales de desarrollo (base de datos, respaldos) ---
+*.sqlite
+*.sqlite3
+*.db
+/backups/
+
+# --- Secretos ---
+.env
+*.env
+config/dart_defines.json

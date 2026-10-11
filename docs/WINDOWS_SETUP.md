@@ -58,6 +58,37 @@ Resultado: `build\windows\x64\runner\Release\ultrapos.exe` (acompañado de
 
 Para solo preparar el proyecto sin compilar: `-SkipBuild`.
 
+### 2.1 Ciclo de desarrollo: `flutter run`
+
+`flutter run` ejecuta **`lib/main.dart`**, el punto de entrada del proyecto: monta
+`UltraPosApp` dentro de `UncontrolledProviderScope` y llama a `Bootstrap.run()`
+(el arranque real vive en `lib/app/bootstrap.dart`). Día a día:
+
+```powershell
+# 1) Solo la PRIMERA vez (o al re-clonar): genera windows/, resuelve
+#    dependencias y el código de Drift, sin compilar el release.
+pwsh -ExecutionPolicy Bypass -File tool/setup_windows.ps1 -SkipBuild
+
+# 2) Desarrollo normal, con recarga en caliente.
+flutter run -d windows
+
+# 3) Solo si cambian tablas o DAOs de Drift (código generado).
+dart run build_runner build --delete-conflicting-outputs
+```
+
+Dos errores típicos en un clon recién bajado, y por qué:
+
+| Mensaje | Causa | Solución |
+| --- | --- | --- |
+| `Target file "lib\main.dart" not found.` | El clon no tiene el archivo de entrada (o se ejecuta desde otra carpeta). | Confirmar que existe `lib/main.dart` y que el `cwd` es la raíz del repo. |
+| `Error: No Windows desktop project configured` / falta `lib/core/database/app_database.g.dart` | Falta la carpeta `windows/` (no está versionada) y/o el código generado por Drift. | Ejecutar `tool/setup_windows.ps1 -SkipBuild`. |
+
+Para ver el SQL de Drift y el log detallado en consola durante el desarrollo:
+
+```powershell
+flutter run -d windows --dart-define=ULTRAPOS_LOG_SQL=true --dart-define=ULTRAPOS_ENV=development
+```
+
 ## 3. Variables de compilación (`--dart-define`)
 
 | Variable | Efecto | Valor por defecto |
